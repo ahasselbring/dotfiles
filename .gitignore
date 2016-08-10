@@ -8,3 +8,5 @@
 !/.tmux.conf
 !/.xsession
 !/.config
+/.config/*
+!/.config/awesome
