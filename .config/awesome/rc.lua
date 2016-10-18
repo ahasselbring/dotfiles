@@ -36,7 +36,7 @@ do
 end
 -- }}}
 
-awful.util.spawn("/usr/bin/wmname LG3D", false)
+awful.util.spawn("/usr/bin/wmname Sawfish", false)
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
