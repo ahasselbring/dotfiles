@@ -1,5 +1,6 @@
 #!/bin/bash
 
+xinput set-prop "SynPS/2 Synaptics TouchPad" "Device Enabled" 0
 urxvtd -q -o -f
 xscreensaver -no-splash &
 xset s 0
