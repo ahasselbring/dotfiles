@@ -1,29 +1,29 @@
-*background: #1B1D1E
-*foreground: #CCCCCC
+*background: #1D1F21
+*foreground: #C5C8C6
 
-*color0: #1B1D1E
-*color8: #808080
+*color0: #282A2E
+*color8: #373B41
 
-*color1: #FF0044
-*color9: #F92672
+*color1: #A54242
+*color9: #CC6666
 
-*color2: #82B414
-*color10: #A6E22E
+*color2: #8C9440
+*color10: #B5BD68
 
-*color3: #FD971F
-*color11: #E6DB74
+*color3: #DE935F
+*color11: #F0C674
 
-*color4: #266C98
-*color12: #7070F0
+*color4: #5F819D
+*color12: #81A2BE
 
-*color5: #AC0CB1
-*color13: #D63AE1
+*color5: #85678F
+*color13: #B294BB
 
-*color6: #AE81FF
-*color14: #66D9EF
+*color6: #5E8D87
+*color14: #8ABEB7
 
-*color7: #CCCCCC
-*color15: #F8F8F2
+*color7: #707880
+*color15: #C5C8C6
 
 URxvt.scrollBar: false
 URxvt.font: xft:Terminus:size=9

@@ -5,12 +5,13 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'tomasr/molokai'
+Plugin 'w0ng/vim-hybrid'
 Plugin 'bling/vim-airline'
 let g:airline_powerline_fonts=1
 let g:airline_detect_paste=1
 let g:airline#extensions#tabline#enabled=1
 Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-commentary'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'Valloric/YouCompleteMe'
 let g:ycm_confirm_extra_conf=0
@@ -39,5 +40,6 @@ set autoindent
 autocmd FileType cpp setlocal smartindent
 imap jj <Esc>
 set background=dark
-colorscheme molokai
+let g:hybrid_custom_term_colors=1
+colorscheme hybrid
 syntax on
