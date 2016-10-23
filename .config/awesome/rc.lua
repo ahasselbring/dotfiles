@@ -9,7 +9,9 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
+-- Widget library
 local vicious = require("vicious")
+local lain = require("lain")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -85,31 +87,37 @@ end
 
 -- {{{ Wibox
 
--- Create a wibox for each screen and add it
-mywibox = {}
+markup = lain.util.markup
 
--- Date
-datewidget = wibox.widget.textbox()
-vicious.register(datewidget, vicious.widgets.date,
-    '<span background="' .. beautiful.date_bg .. '" font="' .. beautiful.font_bg ..
-    '"> <span color="' .. beautiful.date_fg .. '" font="' .. beautiful.font .. '">%d. %b %H:%M</span> </span>', 60)
+-- Textclock
+mytextclock = lain.widgets.abase({
+    timeout = 60,
+    cmd = "date +'%d. %b %R'",
+    settings = function()
+        local t_output = ""
+        local o_it = string.gmatch(output, "%S+")
 
--- Network
-netwidget = wibox.widget.textbox()
-vicious.register(netwidget, vicious.widgets.net, function(widget, args)
-        local interface = ""
-        if args["{wlp4s0 carrier}"] == 1 then
-            interface = "wlp4s0"
-        elseif args["{enp0s31f6 carrier}"] == 1 then
-            interface = "enp0s31f6"
-        else
-            interface = "enp0s31f6"
-        end
-        return '<span background="' .. beautiful.net_bg .. '" font="' .. beautiful.font_bg ..
-            '"> <span color="' .. beautiful.net_fg .. '" font="' .. beautiful.font .. '">' ..
-            args["{" .. interface .." down_kb}"] .. ' ↓↑ ' .. args["{" .. interface .." up_kb}"] ..
-            '</span> </span>'
-    end, 5)
+        for i = 1, 2 do t_output = t_output .. " " .. o_it(i) end
+
+        widget:set_markup(markup("#7788af", t_output) .. markup("#343639", " > ") .. markup("#de5e1e", o_it(1)) .. " ")
+    end
+})
+
+-- Calendar
+lain.widgets.calendar:attach(mytextclock, { font_size = 9 })
+
+-- Net
+netwidget = lain.widgets.net({
+    timeout = 2,
+    units = 1024,
+    notify = "off",
+    screen = 1,
+    settings = function()
+        -- TODO: Make better
+        widget:set_markup(markup("#e54c62", net_now.received .. " ↓↑ " .. net_now.sent .. " "))
+    end,
+    iface = { "wlp4s0", "enp0s31f6" }
+})
 netmenuitems = {
     { "WiFi on", function()
         awful.util.spawn("sudo /sbin/rc-service net.wlp4s0 start", false)
@@ -130,49 +138,77 @@ netwidget:buttons(awful.util.table.join(awful.button({ }, 1, function() netmenu:
 -- TODO: show whether WiFi is enabled / VPN is enabled
 
 -- Battery
-batterywidget = wibox.widget.textbox()
-vicious.register(batterywidget, vicious.widgets.bat,
-    '<span background="' .. beautiful.battery_bg .. '" font="' .. beautiful.font_bg ..
-    '"> <span color="' .. beautiful.battery_fg .. '" font="' .. beautiful.font .. '">$1$2%</span> </span>', 30, "BAT0")
-
--- File System Usage
-fswidget = wibox.widget.textbox()
-vicious.register(fswidget, vicious.widgets.fs,
-    '<span background="' .. beautiful.fs_bg .. '" font="' .. beautiful.font_bg ..
-    '"> <span color="' .. beautiful.fs_fg .. '" font="' .. beautiful.font .. '">${/ used_gb}GiB</span> </span>', 30)
-
--- CPU Usage
-cpuwidget = wibox.widget.textbox()
-vicious.register(cpuwidget, vicious.widgets.cpu,
-    '<span background="' .. beautiful.cpu_bg .. '" font="' .. beautiful.font_bg ..
-    '"> <span color="' .. beautiful.cpu_fg .. '" font="' .. beautiful.font .. '">$2% $3% $4% $5% $6% $7% $8% $9%</span> </span>', 5)
-
-memwidget = wibox.widget.textbox()
-vicious.register(memwidget, vicious.widgets.mem,
-    '<span background="' .. beautiful.mem_bg .. '" font="' .. beautiful.font_bg ..
-    '"> <span color="' .. beautiful.mem_fg .. '" font="' .. beautiful.font .. '">$2MiB</span> </span>', 5)
-
-mailwidget = wibox.widget.textbox()
-vicious.register(mailwidget, vicious.widgets.mdir,
-    '<span background="' .. beautiful.mail_bg .. '" font="' .. beautiful.font_bg ..
-    '"> <span color="' .. beautiful.mail_fg .. '" font="' .. beautiful.font .. '">$1</span> </span>', 30,
-    { "/home/arne/Mail/tuhh", "/home/arne/Mail/google", "/home/arne/Mail/ctf" })
-
-volumewidget = wibox.widget.textbox()
-vicious.register(volumewidget, vicious.widgets.volume, function(widget, args)
-        local string = args[1] .. '%'
-        if args[2] == "♩" then
-            string = 'M'
+batwidget = lain.widgets.bat({
+    timeout = 30,
+    battery = "BAT0",
+    ac = "AC",
+    notify = "off",
+    settings = function()
+        perc = bat_now.perc .. "% "
+        if bat_now.ac_status == 1 then
+            perc = perc .. "Plug "
         end
-        return '<span background="' .. beautiful.volume_bg .. '" font="' .. beautiful.font_bg ..
-            '"> <span color="' .. beautiful.volume_fg .. '" font="' .. beautiful.font .. '">' ..
-            string .. '</span> </span>'
-    end, 60, "Master")
+        widget:set_text(perc)
+    end
+})
+
+-- / fs
+fswidget = lain.widgets.fs({
+    timeout = 30,
+    partition = "/",
+    showpopup = "on",
+    notify = "off",
+    settings = function()
+        widget:set_markup(markup("#80d9d8", fs_now.used .. "% "))
+    end
+})
+
+-- CPU
+cpuwidget = lain.widgets.cpu({
+    timeout = 2,
+    settings = function()
+        widget:set_markup(markup("#e33a6e", cpu_now[0].usage .. "% " .. cpu_now[1].usage .. "% " .. cpu_now[2].usage .. "% " .. cpu_now[3].usage .. "% " .. cpu_now[4].usage .. "% " .. cpu_now[5].usage .. "% " .. cpu_now[6].usage .. "% " .. cpu_now[7].usage .. "% "))
+    end
+})
+
+-- MEM
+memwidget = lain.widgets.mem({
+    timeout = 2,
+    settings = function()
+        widget:set_markup(markup("#e0da37", mem_now.used .. "MiB "))
+    end
+})
+
+-- Maildir
+mailwidget = lain.widgets.maildir({
+    timeout = 30,
+    mailpath = os.getenv("HOME") .. "/Mail",
+    ignore_boxes = {},
+    settings = function()
+        widget:set_markup(markup("#cccccc", total .. " "))
+    end,
+    ext_mail_cmd = ""
+})
+
+-- ALSA volume
+volumewidget = lain.widgets.alsa({
+    timeout = 60,
+    settings = function()
+        if volume_now.status == "off" then
+            volume_now.level = volume_now.level .. "M"
+        end
+
+        widget:set_markup(markup("#7493d2", volume_now.level .. "% "))
+    end
+})
 volumewidget:buttons(awful.util.table.join(awful.button({ }, 1, function()
         awful.util.spawn('/usr/bin/amixer set Master toggle', false)
-        vicious.force({ volumewidget })
+        volumewidget.update()
     end)))
 
+
+-- Create a wibox for each screen and add it
+mywibox = {}
 mypromptbox = {}
 mylayoutbox = {}
 mytaglist = {}
@@ -252,9 +288,9 @@ for s = 1, screen.count() do
     right_layout:add(cpuwidget)
     right_layout:add(volumewidget)
     right_layout:add(fswidget)
-    right_layout:add(batterywidget)
+    right_layout:add(batwidget)
     right_layout:add(netwidget)
-    right_layout:add(datewidget)
+    right_layout:add(mytextclock)
     right_layout:add(mylayoutbox[s])
 
     local layout = wibox.layout.align.horizontal()
@@ -339,22 +375,22 @@ globalkeys = awful.util.table.join(
     awful.key({ }, "XF86AudioMute",
         function ()
             awful.util.spawn("/usr/bin/amixer set Master toggle", false)
-            vicious.force({ volumewidget })
+            volumewidget.update()
         end),
     awful.key({ }, "XF86AudioMicMute",
         function ()
             awful.util.spawn("/usr/bin/amixer set Capture toggle", false)
-            vicious.force({ volumewidget })
+            volumewidget.update()
         end),
     awful.key({ }, "XF86AudioRaiseVolume",
         function ()
             awful.util.spawn("/usr/bin/amixer set Master 2+", false)
-            vicious.force({ volumewidget })
+            volumewidget.update()
         end),
     awful.key({ }, "XF86AudioLowerVolume",
         function ()
             awful.util.spawn("/usr/bin/amixer set Master 2-", false)
-            vicious.force({ volumewidget })
+            volumewidget.update()
         end),
     awful.key({ }, "XF86MonBrightnessDown",
         function ()
