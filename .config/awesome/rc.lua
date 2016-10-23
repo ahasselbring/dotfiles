@@ -42,7 +42,7 @@ awful.util.spawn("/usr/bin/wmname Sawfish", false)
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init("/home/arne/.config/awesome/theme/theme.lua")
+beautiful.init("/home/arne/.config/awesome/themes/multicolor/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "/usr/bin/urxvtc"
