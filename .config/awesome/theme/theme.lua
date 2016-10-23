@@ -1,108 +1,86 @@
--- Alternative icon sets and widget icons:
---  * http://awesome.naquadah.org/wiki/Nice_Icons
 
--- {{{ Main
-theme = {}
-theme.confdir = ("/home/arne/.config/awesome/theme/")
-theme.wallpaper = theme.confdir .. "compiling.jpg"
--- }}}
+--[[
 
--- {{{ Styles
-theme.font      = "Terminus 9"
-theme.font_bg   = "Terminus 12"
+     Multicolor Awesome WM config 2.0
+     github.com/copycat-killer
 
--- {{{ Colors
-theme.fg_normal = "#AAAAAA"
-theme.fg_focus  = "#0099CC"
-theme.fg_urgent = "#3F3F3F"
-theme.bg_normal = "#222222"
-theme.bg_focus  = "#1E2320"
-theme.bg_urgent = "#3F3F3F"
-theme.bg_systray = theme.bg_normal
--- }}}
+--]]
 
--- {{{ Borders
-theme.border_width  = 0
-theme.border_normal = "#000000"
-theme.border_focus  = "#535D6C"
-theme.border_marked = "#91231C"
--- }}}
 
-theme.titlebar_bg_focus  = "#3F3F3F"
-theme.titlebar_bg_normal = "#3F3F3F"
-theme.taglist_bg_focus   = "#3F3F3F"
-theme.taglist_fg_focus   = "#00CCFF"
-theme.tasklist_bg_focus  = "#222222"
-theme.tasklist_fg_focus  = "#00CCFF"
-theme.textbox_widget_as_label_font_color = "#FFFFFF"
-theme.textbox_widget_margin_top = 1
--- There are other variable sets
--- overriding the default one when
--- defined, the sets are:
--- [taglist|tasklist]_[bg|fg]_[focus|urgent]
--- titlebar_[normal|focus]
--- tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
--- Example:
---theme.taglist_bg_focus = "#CC9393"
--- }}}
+theme                               = {}
 
--- {{{ Widgets
-theme.date_fg = "#EEEEEE"
-theme.date_bg = "#777E76"
-theme.net_fg = "#FFFFFF"
-theme.net_bg = "#C2C2A4"
-theme.battery_fg = "#FFFFFF"
-theme.battery_bg = "#92B0A0"
-theme.fs_fg = "#EEEEEE"
-theme.fs_bg = "#D0785D"
-theme.volume_fg = "#EEEEEE"
-theme.volume_bg = "#4B3B51"
-theme.cpu_fg = "#DDDDDD"
-theme.cpu_bg = "#4B696B"
-theme.mem_fg = "#EEEEEE"
-theme.mem_bg = "#777E76"
-theme.mail_fg = "#FFFFFF"
-theme.mail_bg = "#92B0A0"
--- }}}
+theme.confdir                       = os.getenv("HOME") .. "/.config/awesome/theme"
+theme.wallpaper                     = theme.confdir .. "/wall.png"
 
--- {{{ Mouse finder
-theme.mouse_finder_color = "#CC9393"
--- mouse_finder_[timeout|animate_timeout|radius|factor]
--- }}}
+theme.font                          = "Terminus 8"
+--theme.taglist_font                =
+theme.menu_bg_normal                = "#000000"
+theme.menu_bg_focus                 = "#000000"
+theme.bg_normal                     = "#000000"
+theme.bg_focus                      = "#000000"
+theme.bg_urgent                     = "#000000"
+theme.fg_normal                     = "#aaaaaa"
+theme.fg_focus                      = "#ff8c00"
+theme.fg_urgent                     = "#af1d18"
+theme.fg_minimize                   = "#ffffff"
+theme.fg_black                      = "#424242"
+theme.fg_red                        = "#ce5666"
+theme.fg_green                      = "#80a673"
+theme.fg_yellow                     = "#ffaf5f"
+theme.fg_blue                       = "#7788af"
+theme.fg_magenta                    = "#94738c"
+theme.fg_cyan                       = "#778baf"
+theme.fg_white                      = "#aaaaaa"
+theme.fg_blu                        = "#8ebdde"
+theme.border_width                  = "1"
+theme.border_normal                 = "#1c2022"
+theme.border_focus                  = "#606060"
+theme.border_marked                 = "#3ca4d8"
+theme.menu_width                    = "110"
+theme.menu_border_width             = "0"
+theme.menu_fg_normal                = "#aaaaaa"
+theme.menu_fg_focus                 = "#ff8c00"
+theme.menu_bg_normal                = "#050505dd"
+theme.menu_bg_focus                 = "#050505dd"
 
--- {{{ Menu
--- Variables set for theming the menu:
--- menu_[bg|fg]_[normal|focus]
--- menu_[border_color|border_width]
-theme.menu_height = "15"
-theme.menu_width  = "120"
--- }}}
+theme.submenu_icon                  = theme.confdir .. "/icons/submenu.png"
+theme.widget_temp                   = theme.confdir .. "/icons/temp.png"
+theme.widget_uptime                 = theme.confdir .. "/icons/ac.png"
+theme.widget_cpu                    = theme.confdir .. "/icons/cpu.png"
+theme.widget_weather                = theme.confdir .. "/icons/dish.png"
+theme.widget_fs                     = theme.confdir .. "/icons/fs.png"
+theme.widget_mem                    = theme.confdir .. "/icons/mem.png"
+theme.widget_fs                     = theme.confdir .. "/icons/fs.png"
+theme.widget_note                   = theme.confdir .. "/icons/note.png"
+theme.widget_note_on                = theme.confdir .. "/icons/note_on.png"
+theme.widget_netdown                = theme.confdir .. "/icons/net_down.png"
+theme.widget_netup                  = theme.confdir .. "/icons/net_up.png"
+theme.widget_mail                   = theme.confdir .. "/icons/mail.png"
+theme.widget_batt                   = theme.confdir .. "/icons/bat.png"
+theme.widget_clock                  = theme.confdir .. "/icons/clock.png"
+theme.widget_vol                    = theme.confdir .. "/icons/spkr.png"
 
--- {{{ Icons
--- {{{ Taglist
-theme.taglist_squares_sel   = theme.confdir .. "taglist/squarefz.png"
-theme.taglist_squares_unsel = theme.confdir .. "taglist/squarez.png"
---theme.taglist_squares_resize = "false"
--- }}}
+theme.taglist_squares_sel           = theme.confdir .. "/icons/square_a.png"
+theme.taglist_squares_unsel         = theme.confdir .. "/icons/square_b.png"
 
--- {{{ Misc
-theme.awesome_icon           = theme.confdir .. "awesome-icon.png"
-theme.menu_submenu_icon      = "/usr/share/awesome/themes/default/submenu.png"
--- }}}
+theme.tasklist_disable_icon         = true
+theme.tasklist_floating             = ""
+theme.tasklist_maximized_horizontal = ""
+theme.tasklist_maximized_vertical   = ""
 
--- {{{ Layout
-theme.layout_tile       = theme.confdir .. "layouts/tile.png"
-theme.layout_tileleft   = theme.confdir .. "layouts/tileleft.png"
-theme.layout_tilebottom = theme.confdir .. "layouts/tilebottom.png"
-theme.layout_tiletop    = theme.confdir .. "layouts/tiletop.png"
-theme.layout_fairv      = theme.confdir .. "layouts/fairv.png"
-theme.layout_fairh      = theme.confdir .. "layouts/fairh.png"
-theme.layout_spiral     = theme.confdir .. "layouts/spiral.png"
-theme.layout_dwindle    = theme.confdir .. "layouts/dwindle.png"
-theme.layout_max        = theme.confdir .. "layouts/max.png"
-theme.layout_fullscreen = theme.confdir .. "layouts/fullscreen.png"
-theme.layout_magnifier  = theme.confdir .. "layouts/magnifier.png"
-theme.layout_floating   = theme.confdir .. "layouts/floating.png"
--- }}}
+theme.layout_tile                   = theme.confdir .. "/icons/tile.png"
+theme.layout_tilegaps               = theme.confdir .. "/icons/tilegaps.png"
+theme.layout_tileleft               = theme.confdir .. "/icons/tileleft.png"
+theme.layout_tilebottom             = theme.confdir .. "/icons/tilebottom.png"
+theme.layout_tiletop                = theme.confdir .. "/icons/tiletop.png"
+theme.layout_fairv                  = theme.confdir .. "/icons/fairv.png"
+theme.layout_fairh                  = theme.confdir .. "/icons/fairh.png"
+theme.layout_spiral                 = theme.confdir .. "/icons/spiral.png"
+theme.layout_dwindle                = theme.confdir .. "/icons/dwindle.png"
+theme.layout_max                    = theme.confdir .. "/icons/max.png"
+theme.layout_fullscreen             = theme.confdir .. "/icons/fullscreen.png"
+theme.layout_magnifier              = theme.confdir .. "/icons/magnifier.png"
+theme.layout_floating               = theme.confdir .. "/icons/floating.png"
+
 
 return theme
