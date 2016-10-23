@@ -21,6 +21,7 @@ export BC_ENV_ARGS="-l $HOME/.bcrc"
 export EDITOR=vim
 export PAGER=less
 
+alias ll="ls -l"
 alias ...="cd ../../"
 alias rvim="sudo -E vim"
 
