@@ -178,6 +178,16 @@ cpuwidget = lain.widgets.cpu({
     end
 })
 
+-- Coretemp
+tempicon = wibox.widget.imagebox(beautiful.widget_temp)
+tempwidget = lain.widgets.temp({
+    timeout = 2,
+    tempfile = "/sys/class/thermal/thermal_zone0/temp",
+    settings = function()
+        widget:set_markup(markup("#f1af5f", coretemp_now .. "°C "))
+    end
+})
+
 -- MEM
 memicon = wibox.widget.imagebox(beautiful.widget_mem)
 memwidget = lain.widgets.mem({
@@ -307,6 +317,8 @@ for s = 1, screen.count() do
     right_layout:add(cpuwidget)
     right_layout:add(fsicon)
     right_layout:add(fswidget)
+    right_layout:add(tempicon)
+    right_layout:add(tempwidget)
     right_layout:add(baticon)
     right_layout:add(batwidget)
     right_layout:add(clockicon)
