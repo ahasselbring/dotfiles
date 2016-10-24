@@ -90,6 +90,7 @@ end
 markup = lain.util.markup
 
 -- Textclock
+clockicon = wibox.widget.imagebox(beautiful.widget_clock)
 mytextclock = lain.widgets.abase({
     timeout = 60,
     cmd = "date +'%d. %b %R'",
@@ -107,14 +108,17 @@ mytextclock = lain.widgets.abase({
 lain.widgets.calendar:attach(mytextclock, { font_size = 9 })
 
 -- Net
-netwidget = lain.widgets.net({
+netdownicon = wibox.widget.imagebox(beautiful.widget_netdown)
+netdowninfo = wibox.widget.textbox()
+netupicon = wibox.widget.imagebox(beautiful.widget_netup)
+netupinfo = lain.widgets.net({
     timeout = 2,
     units = 1024,
     notify = "off",
     screen = 1,
     settings = function()
-        -- TODO: Make better
-        widget:set_markup(markup("#e54c62", net_now.received .. " ↓↑ " .. net_now.sent .. " "))
+        widget:set_markup(markup("#e54c62", net_now.sent .. " "))
+        netdowninfo:set_markup(markup("#87af5f", net_now.received .. " "))
     end,
     iface = { "wlp4s0", "enp0s31f6" }
 })
@@ -133,11 +137,12 @@ netmenuitems = {
     end }
 }
 netmenu = awful.menu({ items = netmenuitems })
-netwidget:buttons(awful.util.table.join(awful.button({ }, 1, function() netmenu:toggle() end)))
+netdownicon:buttons(awful.util.table.join(awful.button({ }, 1, function() netmenu:toggle() end)))
 
 -- TODO: show whether WiFi is enabled / VPN is enabled
 
 -- Battery
+baticon = wibox.widget.imagebox(beautiful.widget_batt)
 batwidget = lain.widgets.bat({
     timeout = 30,
     battery = "BAT0",
@@ -153,6 +158,7 @@ batwidget = lain.widgets.bat({
 })
 
 -- / fs
+fsicon = wibox.widget.imagebox(beautiful.widget_fs)
 fswidget = lain.widgets.fs({
     timeout = 30,
     partition = "/",
@@ -164,6 +170,7 @@ fswidget = lain.widgets.fs({
 })
 
 -- CPU
+cpuicon = wibox.widget.imagebox(beautiful.widget_cpu)
 cpuwidget = lain.widgets.cpu({
     timeout = 2,
     settings = function()
@@ -172,6 +179,7 @@ cpuwidget = lain.widgets.cpu({
 })
 
 -- MEM
+memicon = wibox.widget.imagebox(beautiful.widget_mem)
 memwidget = lain.widgets.mem({
     timeout = 2,
     settings = function()
@@ -180,6 +188,7 @@ memwidget = lain.widgets.mem({
 })
 
 -- Maildir
+mailicon = wibox.widget.imagebox(beautiful.widget_mail)
 mailwidget = lain.widgets.maildir({
     timeout = 30,
     mailpath = os.getenv("HOME") .. "/Mail",
@@ -191,6 +200,7 @@ mailwidget = lain.widgets.maildir({
 })
 
 -- ALSA volume
+volicon = wibox.widget.imagebox(beautiful.widget_vol)
 volumewidget = lain.widgets.alsa({
     timeout = 60,
     settings = function()
@@ -283,13 +293,23 @@ for s = 1, screen.count() do
 
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
+    right_layout:add(mailicon)
     right_layout:add(mailwidget)
-    right_layout:add(memwidget)
-    right_layout:add(cpuwidget)
+    right_layout:add(netdownicon)
+    right_layout:add(netdowninfo)
+    right_layout:add(netupicon)
+    right_layout:add(netupinfo)
+    right_layout:add(volicon)
     right_layout:add(volumewidget)
+    right_layout:add(memicon)
+    right_layout:add(memwidget)
+    right_layout:add(cpuicon)
+    right_layout:add(cpuwidget)
+    right_layout:add(fsicon)
     right_layout:add(fswidget)
+    right_layout:add(baticon)
     right_layout:add(batwidget)
-    right_layout:add(netwidget)
+    right_layout:add(clockicon)
     right_layout:add(mytextclock)
     right_layout:add(mylayoutbox[s])
 
