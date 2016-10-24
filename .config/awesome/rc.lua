@@ -547,7 +547,7 @@ awful.rules.rules = {
       properties = { tag = tags[1][2] } },
     { rule = { class = "Telegram" },
       properties = { tag = tags[1][3] } },
-    { rule = { class = "Matlab" },
+    { rule = { class = "MATLAB R2016b - academic student use" },
       properties = { tag = tags[1][4] } },
     { rule = { class = "Wireshark" },
       properties = { tag = tags[1][4] } },
