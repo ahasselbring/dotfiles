@@ -107,6 +107,19 @@ mytextclock = lain.widgets.abase({
 -- Calendar
 lain.widgets.calendar:attach(mytextclock, { font_size = 9 })
 
+-- Weather
+weathericon = wibox.widget.imagebox(beautiful.widget_weather)
+myweather = lain.widgets.weather({
+    city_id = 2911298,
+    units = "metric",
+    lang = "de",
+    settings = function()
+        descr = weather_now["weather"][1]["description"]:lower()
+        units = math.floor(weather_now["main"]["temp"])
+        widget:set_markup(markup("#eca4c4", descr .. " @ " .. units .. "°C "))
+    end
+})
+
 -- Net
 netdownicon = wibox.widget.imagebox(beautiful.widget_netdown)
 netdowninfo = wibox.widget.textbox()
@@ -117,6 +130,9 @@ netupinfo = lain.widgets.net({
     notify = "off",
     screen = 1,
     settings = function()
+        if iface ~= "network off" and string.match(myweather._layout.text, "N/A") then
+            myweather.update()
+        end
         widget:set_markup(markup("#e54c62", net_now.sent .. " "))
         netdowninfo:set_markup(markup("#87af5f", net_now.received .. " "))
     end,
@@ -317,6 +333,8 @@ for s = 1, screen.count() do
     right_layout:add(cpuwidget)
     right_layout:add(fsicon)
     right_layout:add(fswidget)
+    right_layout:add(weathericon)
+    right_layout:add(myweather)
     right_layout:add(tempicon)
     right_layout:add(tempwidget)
     right_layout:add(baticon)
