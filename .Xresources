@@ -26,5 +26,5 @@
 *color15: #C5C8C6
 
 URxvt.scrollBar: false
-URxvt.font: xft:Terminus:size=9
-URxvt.boldfont: xft:Terminus-Bold:size=9
+URxvt.font: xft:xos4 Terminus:size=9
+URxvt.boldfont: xft:xos4 Terminus-Bold:size=9
