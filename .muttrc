@@ -27,14 +27,10 @@ macro index,pager <f4> '<enter-command>source ~/.mutt/ctf<enter><change-folder>!
 # sidebar configuration
 set sidebar_width = 15
 set sidebar_visible = yes
-set sidebar_delim = '|'
-set sidebar_sort = yes
 bind index,pager \CP sidebar-prev
 bind index,pager \CN sidebar-next
 bind index,pager \CO sidebar-open
 set sidebar_format="%B (%N)"
-set sidebar_folderindent = no
-set sidebar_shortpath = no
 
 set pager_index_lines = 10
 set pager_context = 3
