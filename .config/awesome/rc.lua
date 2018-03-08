@@ -92,7 +92,7 @@ markup = lain.util.markup
 -- Textclock
 clockicon = wibox.widget.imagebox(beautiful.widget_clock)
 mytextclock = lain.widgets.abase({
-    timeout = 60,
+    timeout = 30,
     cmd = "date +'%d. %b %R'",
     settings = function()
         local t_output = ""
@@ -547,7 +547,7 @@ awful.rules.rules = {
       properties = { tag = tags[1][2] } },
     { rule = { class = "Telegram" },
       properties = { tag = tags[1][3] } },
-    { rule = { class = "MATLAB R2016b - academic student use" },
+    { rule = { class = "MATLAB R2017b - academic student use" },
       properties = { tag = tags[1][4] } },
     { rule = { class = "Wireshark" },
       properties = { tag = tags[1][4] } },

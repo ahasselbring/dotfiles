@@ -1,0 +1,10 @@
+data.location=~/.task
+
+include /usr/share/task/rc/dark-blue-256.theme
+
+weekstart=Monday
+
+report.simple.sort=project-\/,urgency-,entry
+report.simple.columns=project,tags,due,id,description.count
+report.simple.filter=status:pending
+default.command=simple

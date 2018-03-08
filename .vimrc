@@ -5,7 +5,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'w0ng/vim-hybrid'
+Plugin 'chriskempson/base16-vim'
 Plugin 'bling/vim-airline'
 let g:airline_powerline_fonts=1
 let g:airline_detect_paste=1
@@ -39,7 +39,11 @@ autocmd FileType make setlocal noexpandtab
 set autoindent
 autocmd FileType cpp setlocal smartindent
 imap jj <Esc>
+set tags=tags;
 set background=dark
-let g:hybrid_custom_term_colors=1
-colorscheme hybrid
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
 syntax on
+set ttymouse=sgr
